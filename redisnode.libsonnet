@@ -1,5 +1,7 @@
 // Generate the configuration for a single redis node.
 function(num) {
+  id:: num,
+
   image: 'docker.io/redis:latest',
   volumes: [
     std.format('redis-data-%d:/data', num),
