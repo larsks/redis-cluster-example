@@ -1,0 +1,181 @@
+services:
+  redis-cluster-creator:
+    command:
+      - redis-cli
+      - --cluster
+      - create
+      - localhost:7001
+      - localhost:7002
+      - localhost:7003
+      - localhost:7004
+      - localhost:7005
+      - localhost:7006
+      - --cluster-yes
+      - --cluster-replicas
+      - '1'
+    depends_on:
+      redis-node-1:
+        condition: service_healthy
+      redis-node-2:
+        condition: service_healthy
+      redis-node-3:
+        condition: service_healthy
+      redis-node-4:
+        condition: service_healthy
+      redis-node-5:
+        condition: service_healthy
+      redis-node-6:
+        condition: service_healthy
+    image: docker.io/redis:latest
+    network_mode: host
+  redis-node-1:
+    command:
+      - redis-server
+      - /redis/redis.conf
+      - --port
+      - '7001'
+    healthcheck:
+      interval: 5s
+      retries: '3'
+      test:
+        - CMD
+        - redis-cli
+        - -p
+        - '7001'
+        - -c
+        - ping
+      timeout: 2s
+    image: docker.io/redis:latest
+    network_mode: host
+    ports:
+      - 7001:7000
+    volumes:
+      - redis-data-1:/data
+      - ./redis:/redis
+  redis-node-2:
+    command:
+      - redis-server
+      - /redis/redis.conf
+      - --port
+      - '7002'
+    healthcheck:
+      interval: 5s
+      retries: '3'
+      test:
+        - CMD
+        - redis-cli
+        - -p
+        - '7002'
+        - -c
+        - ping
+      timeout: 2s
+    image: docker.io/redis:latest
+    network_mode: host
+    ports:
+      - 7002:7000
+    volumes:
+      - redis-data-2:/data
+      - ./redis:/redis
+  redis-node-3:
+    command:
+      - redis-server
+      - /redis/redis.conf
+      - --port
+      - '7003'
+    healthcheck:
+      interval: 5s
+      retries: '3'
+      test:
+        - CMD
+        - redis-cli
+        - -p
+        - '7003'
+        - -c
+        - ping
+      timeout: 2s
+    image: docker.io/redis:latest
+    network_mode: host
+    ports:
+      - 7003:7000
+    volumes:
+      - redis-data-3:/data
+      - ./redis:/redis
+  redis-node-4:
+    command:
+      - redis-server
+      - /redis/redis.conf
+      - --port
+      - '7004'
+    healthcheck:
+      interval: 5s
+      retries: '3'
+      test:
+        - CMD
+        - redis-cli
+        - -p
+        - '7004'
+        - -c
+        - ping
+      timeout: 2s
+    image: docker.io/redis:latest
+    network_mode: host
+    ports:
+      - 7004:7000
+    volumes:
+      - redis-data-4:/data
+      - ./redis:/redis
+  redis-node-5:
+    command:
+      - redis-server
+      - /redis/redis.conf
+      - --port
+      - '7005'
+    healthcheck:
+      interval: 5s
+      retries: '3'
+      test:
+        - CMD
+        - redis-cli
+        - -p
+        - '7005'
+        - -c
+        - ping
+      timeout: 2s
+    image: docker.io/redis:latest
+    network_mode: host
+    ports:
+      - 7005:7000
+    volumes:
+      - redis-data-5:/data
+      - ./redis:/redis
+  redis-node-6:
+    command:
+      - redis-server
+      - /redis/redis.conf
+      - --port
+      - '7006'
+    healthcheck:
+      interval: 5s
+      retries: '3'
+      test:
+        - CMD
+        - redis-cli
+        - -p
+        - '7006'
+        - -c
+        - ping
+      timeout: 2s
+    image: docker.io/redis:latest
+    network_mode: host
+    ports:
+      - 7006:7000
+    volumes:
+      - redis-data-6:/data
+      - ./redis:/redis
+volumes:
+  redis-data-1: {}
+  redis-data-2: {}
+  redis-data-3: {}
+  redis-data-4: {}
+  redis-data-5: {}
+  redis-data-6: {}
